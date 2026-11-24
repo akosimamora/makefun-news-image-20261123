@@ -5,7 +5,7 @@
 [![reward](https://make.fun/badge/news-image-20261123/akosimamora/makefun-news-image-20261123/reward.svg)](https://make.fun/bounty/news-image-20261123?utm_source=github&utm_medium=readme&utm_campaign=news-image-20261123)
 
 A one-page newspaper front page that sums up Monday 23 November 2026 in a
-single image: 35 stories across 7 regions, every one dated that Monday.
+single image: 33 stories across 7 regions, every one dated that Monday.
 
 - **3 heroes, each a data diagram** — Nvidia's market moves as a bar chart
   (+31% vs Nasdaq +6.5%, S&P +4.7%, Dow +3.0%, chip index +12%); COP31 as a

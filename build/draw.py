@@ -34,8 +34,8 @@ REGION_COLOURS = {
 }
 REGION_LABELS = [
     ("EUROPE", 9, "europe"), ("AMERICAS", 9, "americas"),
-    ("ASIA", 7, "asia"), ("MIDDLE EAST", 5, "mideast"),
-    ("AFRICA", 2, "africa"), ("OCEANIA", 1, "oceania"), ("GLOBAL", 2, "global"),
+    ("ASIA", 7, "asia"), ("MIDDLE EAST", 4, "mideast"),
+    ("AFRICA", 2, "africa"), ("OCEANIA", 1, "oceania"), ("GLOBAL", 1, "global"),
 ]
 
 # ---------------------------------------------------------------- fonts
@@ -219,12 +219,12 @@ def draw_pins(draw, proj, pins, r=9, font_size=11):
 # (number, lat, lon, region) for the 13 numbered stories
 MAP_PINS = [
     (1, 37.4, -122.0, "americas"),   # Nvidia, Santa Clara
-    (2, 36.9, 30.7, "global"),      # COP31, Antalya
+    (2, 35.7, 51.4, "mideast"),     # sanctions, Tehran
     (3, 32.1, 20.1, "europe"),      # Merkury, Benghazi
     (4, 50.8, 30.3, "europe"),      # Dymer, Kyiv region
     (5, -6.2, 106.3, "asia"),       # Cikande, Banten
     (6, 30.3, -97.7, "americas"),   # CrowdStrike, Austin
-    (7, 35.7, 51.4, "mideast"),     # Tehran
+    (7, 37.5, 127.0, "asia"),       # SK hynix ADR, Seoul
     (8, 28.6, 77.2, "asia"),        # New Delhi
     (9, 50.85, 4.35, "europe"),     # Brussels
     (10, 40.8, -91.3, "americas"),  # Iowa plant
@@ -240,9 +240,8 @@ CW = W - 2 * MX              # content width = 976
 
 TIMELINE = [  # (utc hour, label) — all times verified in VERIFIED_NEWS.md
     (5.5, "05:30  Kyiv toll 11"),
+    (6.0, "06:00  Belgium strike"),
     (8.1, "08:05  Merkury sunk"),
-    (9.7, "09:42  COP31 collapse"),
-    (13.6, "13:33  \u201cWorst COP ever\u201d"),
     (14.6, "14:37  Raya out"),
     (21.0, "21:00  Nasdaq +6.5%"),
     (21.9, "21:51  Ashland talks"),
@@ -250,7 +249,7 @@ TIMELINE = [  # (utc hour, label) — all times verified in VERIFIED_NEWS.md
 
 KPI = [  # (big number, fact sentence) — number + FULL fact sentence
     ("+31%", "Nvidia shares on Huang's return — its best day since 2003 (Reuters)"),
-    ("194", "parties at COP31, the longest talks ever — no deal (CNN)"),
+    ("$14.7B", "FinCEN flags Iran shadow-banking flows; US sanctions 30 targets (Treasury)"),
     ("7", "Sea drones sank the corvette Merkury off Libya (Reuters)"),
     ("153", "Russian drones launched overnight; 134 shot down (Ukraine AF)"),
     ("24", "dead confirmed in the factory fire; about 30 missing (Reuters)"),
@@ -276,13 +275,13 @@ def draw_top(draw):
     y = 122
     draw.line([(MX, y), (W - MX, y)], fill=RED, width=2)
     f2 = font(LK, 13)
-    centre(draw, y + 5, "35 STORIES  ·  7 REGIONS  ·  EVERY ONE DATED MONDAY 23 NOVEMBER 2026",
+    centre(draw, y + 5, "33 STORIES  ·  7 REGIONS  ·  EVERY ONE DATED MONDAY 23 NOVEMBER 2026",
            f2, W // 2, fill=RED)
     draw.line([(MX, y + 22), (W - MX, y + 22)], fill=INK, width=2)
 
     # --- subhead: the three biggest events (auto-fit so it never clips)
-    sub = ("Huang back at Nvidia as shares soar 31%  \u25c6  COP31 collapses over "
-           "fossil fuels  \u25c6  Ukraine sinks Russian corvette off Libya")
+    sub = ("Huang back at Nvidia as shares soar 31%  \u25c6  US sanctions Iran's "
+           "shadow banks  \u25c6  Ukraine sinks Russian corvette off Libya")
     f3 = fit_font(LB, sub, CW, 15)
     centre(draw, 148, sub, f3, W // 2)
 
@@ -356,11 +355,11 @@ HEROES = [
      "Board reinstates the co-founder 11 days after he quit; Trump says he "
      "spoke to the board. Wall Street has its best day since April 2025.",
      "REUTERS  ·  WSJ  ·  CNN"),
-    (2, "GLOBAL  ·  CLIMATE", "CONFIRMED",
-     "COP31 collapses over fossil fuels",
-     "The longest climate talks ever end with no deal after the EU, the UK "
-     "and island states reject a pact that never names fossil fuels.",
-     "CNN  ·  WSJ  ·  LE MONDE  ·  NPR"),
+    (2, "MIDDLE EAST  ·  SANCTIONS", "OFFICIAL",
+     "US sanctions Iran's shadow banks",
+     "Treasury hits 30 exchange houses and fronts; FinCEN flags $14.7bn "
+     "in flows tied to Tehran.",
+     "REUTERS  ·  US TREASURY"),
     (3, "EUROPE  ·  CONFLICT", "CONFIRMED",
      "Ukraine sinks Russian corvette off Libya",
      "Seven sea drones hit the Merkury at Benghazi, 2,400 km from the front; "
@@ -374,7 +373,7 @@ def hero_diagram_nvidia(draw, x, y, w, h, img=None):
     ft = font(LB, 9)
     draw.text((x + 8, y + 5), "MONDAY'S MARKET MOVES — % CHANGE",
               font=ft, fill=(255, 255, 255))
-    rows = [("NVIDIA", 31.0, "+31%", RED), ("CHIP INDEX", 12.0, "+12%", (200, 200, 200)),
+    rows = [("NVIDIA", 31.0, "+31%", RED), ("CHIP INDEX", 14.0, "+14%", (200, 200, 200)),
             ("NASDAQ", 6.5, "+6.5%", (200, 200, 200)),
             ("S&P 500", 4.7, "+4.7%", (200, 200, 200)),
             ("DOW", 3.0, "+3.0%", (200, 200, 200))]
@@ -391,30 +390,45 @@ def hero_diagram_nvidia(draw, x, y, w, h, img=None):
               "12 NOV — HUANG RESIGNS    \u2192    23 NOV — REINSTATED  (11 DAYS)",
               font=ft, fill=(255, 200, 90))
 
-def hero_diagram_cop31(draw, x, y, w, h, img=None):
-    # (fix #1) a data diagram: the 14-day COP31 calendar + the count that killed it
-    draw.rectangle([x, y, x + w, y + h], fill=(232, 240, 228))
-    ft = font(LB, 9)
-    draw.text((x + 8, y + 5), "COP31, ANTALYA — 14 DAYS OF TALKS", font=ft, fill=INK)
-    cw, ch = 20, 20
-    x0 = x + 8
-    y0 = y + 20
-    fd = font(LB, 9)
-    for d in range(9, 23):
-        cx = x0 + (d - 9) * (cw + 2)
-        col = (200, 60, 50) if d >= 21 else (120, 180, 120)
-        draw.rectangle([cx, y0, cx + cw, y0 + ch], fill=col,
-                       outline=(255, 255, 255), width=1)
-        t = str(d)
-        draw.text((cx + (cw - draw.textlength(t, font=fd)) / 2, y0 + 4), t,
-                  font=fd, fill=(255, 255, 255))
-    draw.text((x0, y0 + ch + 3), "9–20 NOV: TALKS    21–22 NOV: OVERTIME",
-              font=font(LB, 8), fill=GREY)
-    fn = font(LK, 30)
-    draw.text((x + 8, y + 58), "NO DEAL", font=fn, fill=RED)
-    draw.text((x + 8, y + h - 16),
-              "194 PARTIES  ·  0 MENTIONS OF \u201cFOSSIL FUELS\u201d IN THE DRAFT",
-              font=font(LK, 10), fill=INK)
+def hero_diagram_sanctions(draw, x, y, w, h, img=None):
+    # a data diagram, drawn fresh: the shadow-banking flow as three stages.
+    # Tehran oversees it, three hubs move it, FinCEN counts it — and the
+    # Treasury sanctions it. Figures from the US Treasury / FinCEN releases
+    # of Monday 23 November 2026 (Reuters + US Treasury).
+    draw.rectangle([x, y, x + w, y + h], fill=(232, 235, 240))
+    draw.text((x + 8, y + 5), "HOW THE SHADOW BANKS MOVE THE MONEY",
+              font=font(LB, 9), fill=INK)
+    # (title, title size, title colour, body lines, box width)
+    stages = [
+        ("TEHRAN", 11, INK, ["Central Bank", "oversees it"], 88),
+        ("3 HUBS", 11, INK, ["UAE · Turkey", "Hong Kong"], 90),
+        ("$14.7B", 18, RED, ["flagged by FinCEN", "Jan 2025–Aug 26"], 100),
+    ]
+    top, tall = y + 20, 46
+    spans = []
+    px = x + 8
+    for title, tsize, tcol, lines, sw in stages:
+        draw.rounded_rectangle([px, top, px + sw, top + tall], radius=3,
+                               fill=(255, 255, 255), outline=INK, width=1)
+        tf = font(LK, tsize)
+        tw = draw.textlength(title, font=tf)
+        draw.text((px + (sw - tw) / 2, top + 3), title, font=tf, fill=tcol)
+        lf = font(LB, 8)
+        ly = top + 3 + tsize + 2
+        for ln in lines:
+            lw = draw.textlength(ln, font=lf)
+            draw.text((px + (sw - lw) / 2, ly), ln, font=lf, fill=GREY)
+            ly += 10
+        spans.append((px, px + sw))
+        px += sw + 14
+    # arrows between the stage boxes, at mid-height
+    ay = top + tall // 2
+    for (l0, r0), (l1, r1) in zip(spans, spans[1:]):
+        draw.line([(r0 + 1, ay), (l1 - 1, ay)], fill=RED, width=2)
+        draw.polygon([(l1 - 1, ay), (l1 - 7, ay - 4), (l1 - 7, ay + 4)],
+                     fill=RED)
+    draw.text((x + 8, y + h - 14), "30 TARGETS SANCTIONED BY THE US TREASURY",
+              font=font(LK, 10), fill=RED)
 
 def hero_diagram_merkury(draw, x, y, w, h, img=None):
     # (fix #1) a data diagram: a real map — the Mediterranean, Benghazi, the drones.
@@ -454,7 +468,7 @@ def hero_diagram_merkury(draw, x, y, w, h, img=None):
             font=font(LK, 10), fill=INK)
     img.paste(sub, (x, y))
 
-HERO_DIAGRAMS = [hero_diagram_nvidia, hero_diagram_cop31, hero_diagram_merkury]
+HERO_DIAGRAMS = [hero_diagram_nvidia, hero_diagram_sanctions, hero_diagram_merkury]
 
 def draw_heroes(draw, img):
     y0, ph = 282, 196
@@ -484,9 +498,9 @@ TILES = [
     ("6", "$43.9B", "CrowdStrike to buy Zscaler",
      "All-stock deal unites two cyber rivals.",
      "REUTERS", "CONFIRMED", "shield"),
-    ("7", "$14.7B", "US sanctions Iran shadow banks",
-     "24+ exchange houses hit; FinCEN flags $14.7bn in flows.",
-     "REUTERS", "OFFICIAL", "bank"),
+    ("7", "+20%", "SK hynix ADRs jump 20% in New York",
+     "US-listed shares soar as Huang's return lifts chip stocks.",
+     "REUTERS", "CONFIRMED", "chart"),
     ("8", "$1.62B", "India aid for flood-hit Nepal",
      "Package worth 240bn rupees after Modi–Shah talks.",
      "REUTERS", "CONFIRMED", "peaks"),
@@ -595,6 +609,19 @@ def scene(draw, x, y, w, h, kind):
         draw.rectangle([x + w - 40, y + h - 22, x + w - 8, y + h - 6], fill=(255, 255, 255),
                        outline=RED, width=1)
         draw.text((x + w - 34, y + h - 22), "+", font=font(LK, 14), fill=RED)
+    elif kind == "chart":
+        # rising bars for a market jump: the ADR climbs 20% in New York
+        draw.rectangle([x, y, x + w, y + h], fill=(16, 32, 48))
+        floor = y + h - 4
+        heights = [8, 14, 20, 28]
+        bw, gap = 24, 12
+        bx = x + 24
+        for j, bh in enumerate(heights):
+            col = (255, 200, 60) if j == len(heights) - 1 else (40, 140, 200)
+            draw.rectangle([bx, floor - bh, bx + bw, floor], fill=col)
+            bx += bw + gap
+        draw.text((x + w - 54, y + 4), "+20%", font=font(LK, 13),
+                  fill=(255, 255, 255))
     else:  # houses
         draw.rectangle([x, y, x + w, y + h], fill=(30, 28, 40))
         for hx, hc in ((x + 14, (200, 120, 60)), (x + 62, (90, 140, 200)),
@@ -650,7 +677,7 @@ DATE_LEFT = [  # (date, text) — stories from other days, deliberately left out
     ("SAT 21 NOV", "EU\u2013Indonesia pact signed \u00b7 BTS take five MAMA awards \u00b7 "
      "England beat All Blacks 37\u201312"),
     ("SUN 22 NOV", "Democrats clinch 258 House seats \u00b7 Skubal agrees record $450m Mets deal"),
-    ("SUN 22 NOV", "COP31 final session ends in Antalya (collapse confirmed Monday)"),
+    ("SUN 22 NOV", "COP31 collapses in Antalya — no deal on fossil fuels"),
     ("FRI 20 NOV", "Anthropic claims a Riemann proof (Lean check Sat) \u00b7 "
      "Nigeria boat capsizes, 24 dead"),
 ]
@@ -697,17 +724,15 @@ ALSO_ON = [
     ("22", "Dhaka", "Hasina: arrest if she returns; extradition sought (Reuters)"),
     ("23", "Sydney", "AustralianSuper backs Brookfield's $2.53bn Reliance deal (Reuters)"),
     ("24", "Helsinki", "Finland backs anti-tank barriers on the Russia border (Reuters)"),
-    ("25", "Taiz", "Houthi attack kills 10 at a telecom building (Reuters)"),
-    ("26", "Gaza", "UNRWA: 1 staffer killed, 3 hurt in Israeli attack (Reuters)"),
-    ("27", "Tripoli", "Libya parliament launches unification initiative (Reuters)"),
-    ("28", "London", "Arsenal: Raya out of Dortmund clash (Reuters, 14:37 UTC)"),
-    ("29", "Basel", "Clariant in talks to buy Ashland (Reuters, 21:51 UTC)"),
-    ("30", "Calgary", "Alberta bill may let province fund gas pipelines (Reuters)"),
-    ("31", "Khartoum", "UN and US condemn Sunday drone strikes, 4 killed (Reuters)"),
-    ("32", "Seoul", "SK hynix +20% after Huang's return (Reuters)"),
-    ("33", "London", "UK voters: rising prices top concern amid Iran war (Reuters)"),
-    ("34", "Moscow", "Russia to send nuclear-armed satellite, German media claim (Reuters)"),
-    ("35", "Beijing", "Trump: China to buy 250 more Boeing planes (CNBC)"),
+    ("25", "Gaza", "UNRWA: 1 staffer killed, 3 hurt in Israeli attack (Reuters)"),
+    ("26", "Tripoli", "Libya parliament launches unification initiative (Reuters)"),
+    ("27", "London", "Arsenal: Raya out of Dortmund clash (Reuters, 14:37 UTC)"),
+    ("28", "Basel", "Clariant in talks to buy Ashland (Reuters, 21:51 UTC)"),
+    ("29", "Calgary", "Alberta bill may let province fund gas pipelines (Reuters)"),
+    ("30", "Khartoum", "UN and US condemn Sunday drone strikes, 4 killed (Reuters)"),
+    ("31", "London", "UK voters: rising prices top concern amid Iran war (Reuters)"),
+    ("32", "Moscow", "Russia to send nuclear-armed satellite, German media claim (Reuters)"),
+    ("33", "Beijing", "Trump: China to buy 250 more Boeing planes (CNBC)"),
 ]
 
 def draw_also_on(draw):
